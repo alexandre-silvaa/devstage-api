@@ -8,7 +8,7 @@ import {
   MaxLength,
 } from 'class-validator';
 
-export class CreateSubscriptionDto {
+export class CreateSubscriptionRequestDto {
   @ApiProperty({ required: true })
   @IsString({ message: 'O nome informado não é válido' })
   @IsDefined({ message: 'O nome deve ser informado' })

@@ -1,7 +1,8 @@
 import { Controller, Post, Body } from '@nestjs/common';
-import { CreateSubscriptionDto } from './dto/request/create-subscription.dto';
+import { CreateSubscriptionRequestDto } from './dto/request/create-subscription.request.dto';
 import { CreateSubscriptionUseCase } from './use-cases/create-subscription.user-case';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { CreateSubscriptionResponseDto } from './dto/response/create-subscription.response.dto.';
 
 @ApiTags('subscription')
 @Controller('subscription')
@@ -11,7 +12,23 @@ export class SubscriptionController {
   ) {}
 
   @Post()
-  create(@Body() createSubscriptionDto: CreateSubscriptionDto) {
+  @ApiOperation({
+    summary: 'Criar uma inscrição',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Inscrição criada com sucesso',
+    type: CreateSubscriptionResponseDto,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Parâmetros inválidos',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Operação não autorizada',
+  })
+  create(@Body() createSubscriptionDto: CreateSubscriptionRequestDto) {
     return this.createSubscriptionUseCase.execute(createSubscriptionDto);
   }
 }
