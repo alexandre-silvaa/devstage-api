@@ -1,13 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import {
-  DB_DATABASE,
-  DB_HOST,
-  DB_PASSWORD,
-  DB_PORT,
-  DB_USERNAME,
-} from '../shared/constants/constants';
+import { DB_URL } from '../shared/constants/constants';
 import { Entities } from './entity.index';
 
 @Module({
@@ -15,13 +9,9 @@ import { Entities } from './entity.index';
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
         type: 'mysql',
-        host: DB_HOST,
-        port: Number(DB_PORT),
-        database: DB_DATABASE,
-        username: DB_USERNAME,
-        password: DB_PASSWORD,
+        url: DB_URL,
         autoLoadEntities: true,
-        synchronize: false,
+        synchronize: true,
       }),
       inject: [ConfigService],
     }),
